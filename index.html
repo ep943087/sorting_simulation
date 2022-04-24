@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Simulation</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script type="module" src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <div class="canvas_container">
+      <canvas class="canvas"></canvas>
+    </div>
+    <div class="options">
+      <button id="startButton">Start</button>
+      <button id="continueButton">Continue</button>
+      <button id="stopButton">Stop</button>
+      <button id="scrambleButton">Scramble</button>
+      <select id="sortType">
+        <option value="bubbleSort" selected>Bubble Sort</option>
+        <option value="selectionSort">Selection Sort</option>
+        <option value="insertionSort">Insertion Sort</option>
+      </select>
+      <select id="drawType">
+        <option value="rectangles">Rectangles</option>
+        <option value="colorCircle" selected>Color Circle</option>
+        <option value="selfieImage">Selfie Image</option>
+        <option value="spiralMatrix">Spiral Matrix</option>
+        <option value="spiralMatrixImage">Spiral Matrix Image</option>
+        <option value="zigZagMatrix">Zig-Zag Matrix</option>
+        <option value="zigZagMatrixImage">Zig-Zag Matrix Image</option>
+      </select>
+      <select id="listSize">
+        <option value="25">25</option>
+        <option value="36">50</option>
+        <option value="49">49</option>
+        <option value="100" selected>100</option>
+        <option value="196">196</option>
+        <option value="324">324</option>
+        <option value="400">400</option>
+        <option value="484">484</option>
+        <option value="625">625</option>
+        <option value="729">729</option>
+      </select>
+      <select id="speed">
+        <option value="1">1X</option>
+        <option value="2">2X</option>
+        <option value="5">5X</option>
+        <option value="10">10X</option>
+        <option value="20">20X</option>
+        <option value="30">30X</option>
+        <option value="50">50X</option>
+        <option value="100">100X</option>
+      </select>
+      <select id="image">
+        <option value="selfie">Selfie</option>
+        <option value="maya">Maya</option>
+        <option value="hello-world">Hello World</option>
+      </select>
+    </div>
+  </div>
+</body>
+</html>
