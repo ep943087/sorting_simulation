@@ -3,6 +3,7 @@ class Simulation
   static BUBBLE_SORT = "bubbleSort";
   static SELECTION_SORT = "selectionSort";
   static INSERTION_SORT = "insertionSort";
+  static QUICK_SORT = "quickSort";
 
   constructor(canvas)
   {
@@ -25,6 +26,8 @@ class Simulation
         return this.initializeSelectionSort();
       case Simulation.INSERTION_SORT:
         return this.initializeInsertionSort();
+      case Simulation.QUICK_SORT:
+        return this.initializeQuickSort();
     }
   }
 
@@ -56,6 +59,8 @@ class Simulation
         case Simulation.INSERTION_SORT:
           this.insertionSort();
           break;
+        case Simulation.QUICK_SORT:
+          this.quickSort();
       }
     }
   }
@@ -137,11 +142,87 @@ class Simulation
     }
   }
 
+  initializeQuickSort()
+  {
+    this.tempList = [...this.list];
+    this.lowHighs = [];
+
+    this.lowHighIndex = 0;
+    this.preQuickSort(0, this.tempList.length - 1);
+    this.resetQuickSortVariables();
+  }
+
+  quickSort()
+  {
+    if (this.i >= this.high) {
+      this.swap(this.j, this.high);
+      this.lowHighIndex++;
+
+      if (this.lowHighIndex >= this.lowHighs.length) {
+        this.sorting = false;
+        return;
+      }
+      this.resetQuickSortVariables();
+    }
+
+    if (this.lowHighIndex >= this.lowHighs.length) {
+      this.sorting = false;
+      return;
+    }
+
+    if (this.list[this.i] < this.pivot) {
+      this.swap(this.i, this.j);
+      this.j++;
+    }
+
+    this.i++;
+  }
+
+  resetQuickSortVariables()
+  {
+    this.low = this.lowHighs[this.lowHighIndex].low;
+    this.high = this.lowHighs[this.lowHighIndex].high;
+    this.pivot = this.list[this.high];
+    this.i = this.low;
+    this.j = this.low;
+  }
+
+  preQuickSort(low, high)
+  {
+    if (low < high) {
+      const j = this.partitionQuickSort(low, high);
+      this.preQuickSort(low, j - 1);
+      this.preQuickSort(j + 1, high);
+    }
+  }
+
+  partitionQuickSort(low, high)
+  {
+    this.lowHighs.push({low, high});
+    const pivot = this.tempList[high];
+    let j = low;
+    for (let i=low;i<high;i++) {
+      if (this.tempList[i] < pivot) {
+        this.swapTempList(i, j);
+        j++;
+      }
+    }
+    this.swapTempList(j, high);
+    return j;
+  }
+
   swap(i, j)
   {
     const temp = this.list[i];
     this.list[i] = this.list[j];
     this.list[j] = temp;
+  }
+
+  swapTempList(i, j)
+  {
+    const temp = this.tempList[i];
+    this.tempList[i] = this.tempList[j];
+    this.tempList[j] = temp;
   }
 
   scramble()
