@@ -99,15 +99,9 @@ class DrawHelper
     list.forEach((element, index) => {
       const currentAngle = angleWidth * index;
       ctx.fillStyle = this.calculateHSL(element);
-
-      if (this.simulation.j === index) {
-        ctx.fillStyle = this.backgroundColor;
-      }
-
       ctx.beginPath();
       ctx.lineTo(centerX, centerY);
-      const r = radius * (element / list.length);
-      ctx.arc(centerX, centerY, r, currentAngle, currentAngle + angleWidth);
+      ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + angleWidth);
       ctx.moveTo(centerX, centerY);
       ctx.fill();
     });
