@@ -13,7 +13,7 @@ class DrawHelper
   constructor(simulation)
   {
     this.simulation = simulation;
-    this.backgroundColor = "black";
+    this.backgroundColor = "white";
     this.canvas = simulation.canvas;
     this.drawType = DrawHelper.COLOR_CIRCLE;
     this.ctx = simulation.canvas.getContext('2d');
@@ -31,6 +31,9 @@ class DrawHelper
 
     this.helloWorldImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
     this.helloWorldImage.src = "images/hello-world.png";
+
+    this.codeImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.codeImage.src = "images/code.png";
   }
 
   getImage()
@@ -40,6 +43,7 @@ class DrawHelper
       case "selfie": return this.selfieImage;
       case "maya": return this.mayaImage;
       case "hello-world": return this.helloWorldImage;
+      case "code": return this.codeImage;
     }
   }
 
@@ -72,6 +76,30 @@ class DrawHelper
     }
   }
 
+  getRectangleColor(index)
+  {
+    const { simulation: sim } = this;
+    if (!sim.sorting) return "black";
+
+    switch (sim.sortType) {
+      case Simulation.BUBBLE_SORT:
+        if (index === sim.i) return "red";
+        break;
+      case Simulation.SELECTION_SORT:
+        if (index === sim.j) return "red";
+        if (index === sim.s) return "blue";
+        break;
+      case Simulation.INSERTION_SORT:
+        if (index === sim.j) return "red";
+        break;
+      case Simulation.QUICK_SORT:
+        if (index === sim.i) return "red";
+        if (index === sim.j) return "blue";
+        break;
+    }
+    return "black";
+  }
+
   drawRectangleSimulation()
   {
     const { canvas: c, ctx } = this;
@@ -79,7 +107,7 @@ class DrawHelper
     const { simulation: { list }} = this;
     const w = width / list.length;
     list.forEach((element, index) => {
-      ctx.fillStyle = this.calculateHSL(element);
+      ctx.fillStyle = this.getRectangleColor(index);
       const h = (height / list.length * element) * .9;
       const x = index * w;
       ctx.fillRect(x, height - h, w, h);
@@ -97,6 +125,7 @@ class DrawHelper
     const radius = width * .90 * .5;
     const angleWidth = (Math.PI * 2) / list.length;
     list.forEach((element, index) => {
+      if (!this.drawIndex(index)) return;
       const currentAngle = angleWidth * index;
       ctx.fillStyle = this.calculateHSL(element);
       ctx.beginPath();
@@ -107,6 +136,27 @@ class DrawHelper
     });
   }
 
+  drawIndex(index)
+  {
+    const { simulation: sim } = this;
+    if (!sim.sorting) return true;
+    switch (sim.sortType) {
+      case Simulation.BUBBLE_SORT:
+        if (index === sim.i) return false;
+        break;
+      case Simulation.SELECTION_SORT:
+        if (index === sim.j) return false;
+        break;
+      case Simulation.INSERTION_SORT:
+        if (index === sim.j) return false;
+        break;
+      case Simulation.QUICK_SORT:
+        if (index === sim.i || index === sim.j) return false;
+        break;
+    }
+    return true;
+  }
+
   drawSelfieImageSimulation()
   {
     const { canvas: c, ctx } = this;
@@ -114,6 +164,7 @@ class DrawHelper
     const { simulation: { list }} = this;
     const w = width / list.length;
     list.forEach((element, index) => {
+      if (!this.drawIndex(index)) return;
       ctx.drawImage(this.getImage(), w*index, 0, w, height, w*element, 0, w, height);
     });
   }
@@ -138,36 +189,44 @@ class DrawHelper
     while (top <= bottom && left <= right) {
       if (direction === 0) {
         for (let i=left;i<=right;i++) {
-          const element = list[index];
-          ctx.fillStyle = this.calculateHSL(element);
-          ctx.fillRect(i*w, top*h, w, h);
+          if (this.drawIndex(index)) {
+            const element = list[index];
+            ctx.fillStyle = this.calculateHSL(element);
+            ctx.fillRect(i*w, top*h, w, h);
+          }
           index++;
         }
         top++;
         direction = 1;
       } else if (direction === 1) {
         for (let j=top;j<=bottom;j++) {
-          const element = list[index];
-          ctx.fillStyle = this.calculateHSL(element);
-          ctx.fillRect(right*w, j*h, w, h);
+          if (this.drawIndex(index)) {
+            const element = list[index];
+            ctx.fillStyle = this.calculateHSL(element);
+            ctx.fillRect(right*w, j*h, w, h);
+          }
           index++;
         }
         right--;
         direction = 2;
       } else if (direction === 2) {
         for (let i=right;i>=left;i--) {
-          const element = list[index];
-          ctx.fillStyle = this.calculateHSL(element);
-          ctx.fillRect(i*w, bottom*h, w, h);
+          if (this.drawIndex(index)) {
+            const element = list[index];
+            ctx.fillStyle = this.calculateHSL(element);
+            ctx.fillRect(i*w, bottom*h, w, h);
+          }
           index++;
         }
         bottom--;
         direction = 3;
       } else if (direction === 3) {
         for (let j=bottom;j>=top;j--) {
-          const element = list[index];
-          ctx.fillStyle = this.calculateHSL(element);
-          ctx.fillRect(left*w, j*h, w, h);
+          if (this.drawIndex(index)) {
+            const element = list[index];
+            ctx.fillStyle = this.calculateHSL(element);
+            ctx.fillRect(left*w, j*h, w, h);
+          }
           index++;
         }
         left++;
@@ -180,6 +239,7 @@ class DrawHelper
   {
     const { simulation: { list }} = this;
     list.forEach((element, index) => {
+      if (!this.drawIndex(index)) return;
       this.drawOneElementInSpiralMarixImage(element, index);
     });
   }
@@ -269,12 +329,12 @@ class DrawHelper
 
     ctx.drawImage(
       this.getImage(),
-      drawObject.x,
-      drawObject.y,
-      drawObject.width, 
-      drawObject.height,
       drawObject.iX,
       drawObject.iY,
+      drawObject.width, 
+      drawObject.height,
+      drawObject.x,
+      drawObject.y,
       drawObject.width,
       drawObject.height
     );
@@ -293,9 +353,11 @@ class DrawHelper
     let i = 0;
     let j = 0;
 
-    list.forEach((element) => {
-      ctx.fillStyle = this.calculateHSL(element);
-      ctx.fillRect(j*w, i*h, w, h);
+    list.forEach((element, index) => {
+      if (this.drawIndex(index)) {
+        ctx.fillStyle = this.calculateHSL(element);
+        ctx.fillRect(j*w, i*h, w, h);
+      }
 
       if (direction == 0) {
         j++;
@@ -319,6 +381,7 @@ class DrawHelper
   {
     const { simulation: { list }} = this;
     list.forEach((element, index) => {
+      if (!this.drawIndex(index)) return;
       this.drawOneElementZigZagMatrix(element, index);
     });
   }
@@ -370,12 +433,12 @@ class DrawHelper
 
     ctx.drawImage(
       this.getImage(),
-      drawObject.x,
-      drawObject.y,
-      drawObject.width, 
-      drawObject.height,
       drawObject.iX,
       drawObject.iY,
+      drawObject.width,
+      drawObject.height,
+      drawObject.x,
+      drawObject.y,
       drawObject.width,
       drawObject.height
     );
