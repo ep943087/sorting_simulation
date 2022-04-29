@@ -31,6 +31,9 @@ class DrawHelper
 
     this.helloWorldImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
     this.helloWorldImage.src = "images/hello-world.png";
+
+    this.codeImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.codeImage.src = "images/code.png";
   }
 
   getImage()
@@ -40,6 +43,7 @@ class DrawHelper
       case "selfie": return this.selfieImage;
       case "maya": return this.mayaImage;
       case "hello-world": return this.helloWorldImage;
+      case "code": return this.codeImage;
     }
   }
 
