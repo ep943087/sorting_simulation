@@ -96,6 +96,13 @@ class DrawHelper
         if (index === sim.i) return "red";
         if (index === sim.j) return "blue";
         break;
+      case Simulation.MERGE_SORT:
+        if (sim.merging && index === sim.m) return "#00ff00";
+        if (!sim.merging) {
+          if (sim.i === index) return "red";
+          if (sim.j === index) return "blue";
+        }
+        break;
     }
     return "black";
   }
@@ -152,6 +159,13 @@ class DrawHelper
         break;
       case Simulation.QUICK_SORT:
         if (index === sim.i || index === sim.j) return false;
+        break;
+      case Simulation.MERGE_SORT:
+        if (sim.merging && (index === sim.m)) {
+          return false;
+        } else if (!sim.merging && [sim.i, sim.j].includes(index)) {
+          return false;
+        }
         break;
     }
     return true;

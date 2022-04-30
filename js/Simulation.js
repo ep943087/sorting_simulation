@@ -2,6 +2,7 @@ import BubbleSort from "./Sort/BubbleSort.js";
 import SelectionSort from "./Sort/SelectionSort.js";
 import InsertionSort from "./Sort/InsertionSort.js";
 import QuickSort from "./Sort/QuickSort.js";
+import MergeSort from "./Sort/MergeSort.js";
 
 class Simulation
 {
@@ -9,6 +10,7 @@ class Simulation
   static SELECTION_SORT = "selectionSort";
   static INSERTION_SORT = "insertionSort";
   static QUICK_SORT = "quickSort";
+  static MERGE_SORT = "mergeSort";
 
   constructor(canvas)
   {
@@ -22,6 +24,7 @@ class Simulation
     this.selectionSort = new SelectionSort(this);
     this.insertionSort = new InsertionSort(this);
     this.quickSort = new QuickSort(this);
+    this.mergeSort = new MergeSort(this);
     this.initializeSimulation();
   }
 
@@ -36,6 +39,8 @@ class Simulation
         return this.insertionSort;
       case Simulation.QUICK_SORT:
         return this.quickSort;
+      case Simulation.MERGE_SORT:
+        return this.mergeSort;
     }
   }
 
