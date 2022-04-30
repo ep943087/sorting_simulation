@@ -16,5 +16,5 @@ window.onload = () => {
       eventHelper.initializeSimulation();
     }
     requestAnimationFrame(drawHelper.draw);
-  }, 0);
+  }, 20);
 }
