@@ -9,6 +9,7 @@ class DrawHelper
   static ZIG_ZAG_MATRIX = "zigZagMatrix";
   static SPIRAL_MATRIX_IMAGE = "spiralMatrixImage";
   static ZIG_ZAG_MATRIX_IMAGE = "zigZagMatrixImage";
+  static SPIRAL_DOTS = "spiralDots";
 
   constructor(simulation)
   {
@@ -73,6 +74,8 @@ class DrawHelper
         return this.drawZigZagMatrix();
       case DrawHelper.ZIG_ZAG_MATRIX_IMAGE:
         return this.drawZigZagMatrixImage();
+      case DrawHelper.SPIRAL_DOTS:
+        return this.drawSpiralDots();
     }
   }
 
@@ -456,6 +459,30 @@ class DrawHelper
       drawObject.width,
       drawObject.height
     );
+  }
+
+  drawSpiralDots()
+  {
+    const { canvas: c, ctx } = this;
+    const { width, height } = c;
+    const { simulation: { list }} = this;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const angleWidth = (15.9 * Math.PI) / list.length;
+
+    const maxRadius = 5 * (15.9 * Math.PI);
+    list.forEach((element, index) => {
+      const radius = maxRadius * (element / list.length);
+      const angle = angleWidth * index;
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+      if (this.drawIndex(index)) {
+        ctx.fillStyle = this.calculateHSL(element);
+        ctx.beginPath();
+        ctx.arc(centerX + x, centerY + y, 2, 0, 2*Math.PI);
+        ctx.fill();
+      }
+    });
   }
 
   calculateHSL(element)
