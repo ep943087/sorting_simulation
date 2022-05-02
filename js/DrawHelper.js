@@ -10,6 +10,7 @@ class DrawHelper
   static SPIRAL_MATRIX_IMAGE = "spiralMatrixImage";
   static ZIG_ZAG_MATRIX_IMAGE = "zigZagMatrixImage";
   static SPIRAL_DOTS = "spiralDots";
+  static DISPARITY_DOTS = "disparityDots";
 
   constructor(simulation)
   {
@@ -76,6 +77,8 @@ class DrawHelper
         return this.drawZigZagMatrixImage();
       case DrawHelper.SPIRAL_DOTS:
         return this.drawSpiralDots();
+      case DrawHelper.DISPARITY_DOTS:
+        return this.drawDisparityDots();
     }
   }
 
@@ -484,7 +487,31 @@ class DrawHelper
       }
     });
   }
+  
+  drawDisparityDots()
+  {
+    const { canvas: c, ctx } = this;
+    const { width, height } = c;
+    const { simulation: { list }} = this;
 
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = width * .90 * .5;
+    const maxDistance = radius * 2;
+    const angleWidth = (Math.PI * 2) / list.length;
+    list.forEach((element, index) => {
+      if (!this.drawIndex(index)) return;
+      const currentAngle = angleWidth * index;
+      const currentRadius = Math.max(0, radius - (radius * Math.abs(index - element) / (list.length)));
+      const x = centerX + currentRadius * Math.cos(currentAngle);
+      const y = centerY + currentRadius * Math.sin(currentAngle);
+      ctx.fillStyle = this.calculateHSL(element);
+      ctx.beginPath();
+      ctx.arc(x, y, 2, 0, 2*Math.PI);
+      ctx.fill();
+    });
+  }
+  
   calculateHSL(element)
   {
     const hue = element / this.simulation.list.length * 360;
