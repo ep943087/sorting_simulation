@@ -3,6 +3,7 @@ import Simulation from "./Simulation.js";
 class DrawHelper
 {
   static COLOR_CIRCLE = "colorCircle";
+  static SCATTER_PLOT = "scatterPlot";
   static RECTANGLES = "rectangles";
   static SELFIE_IMAGE = "selfieImage";
   static SPIRAL_MATRIX = "spiralMatrix";
@@ -63,6 +64,8 @@ class DrawHelper
     switch (this.drawType) {
       case DrawHelper.RECTANGLES:
         return this.drawRectangleSimulation();
+      case DrawHelper.SCATTER_PLOT:
+        return this.drawScatterPlotSimulation();
       case DrawHelper.COLOR_CIRCLE:
         return this.drawColorCircleSimulation();
       case DrawHelper.SELFIE_IMAGE:
@@ -130,6 +133,38 @@ class DrawHelper
       const h = (height / list.length * element) * .9;
       const x = index * w;
       ctx.fillRect(x, height - h, w, h);
+    });
+  }
+
+  drawScatterPlotSimulation()
+  {
+    const { canvas: c, ctx } = this;
+    const { width, height } = c;
+    const { simulation: { list }} = this;
+    const w = width / list.length;
+
+    // draw big circles lat
+    const drawLast = []
+    list.forEach((element, index) => {
+      const h = (height / list.length * element);
+      const x = index * w;
+      const color = this.getRectangleColor(index);
+      ctx.fillStyle = color
+      const radius = color === "black" ? 2 : 5;
+      if (radius === 5) {
+        drawLast.push({x, y: height - h, radius, color});
+        return;
+      }
+      ctx.beginPath();
+      ctx.arc(x, height - h, radius, 0, 2*Math.PI);
+      ctx.fill();
+    });
+
+    drawLast.forEach(({x, y, radius, color}) => {
+      ctx.beginPath();
+      ctx.fillStyle = color;
+      ctx.arc(x, y, radius, 0, 2*Math.PI);
+      ctx.fill();
     });
   }
 
