@@ -4,10 +4,11 @@ class EventHelper
   static STOP = "stop";
   static CONTINUE = "continue";
 
-  constructor(simulation, drawHelper)
+  constructor(simulation, drawHelper, audioHelper)
   {
     this.simulation = simulation;
     this.drawHelper = drawHelper;
+    this.audioHelper = audioHelper;
   }
 
   initialize()
@@ -45,12 +46,14 @@ class EventHelper
 
   handleStartButtonClicked = () =>
   {
+    this.audioHelper.initialize();
     this.simulation.start();
     this.showStopButton();
   }
 
   handleContinueButtonClicked = () =>
   {
+    this.audioHelper.initialize();
     this.simulation.continue();
     this.showStopButton();
   }
