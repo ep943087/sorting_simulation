@@ -1,5 +1,6 @@
 import BubbleSort from "./Sort/BubbleSort.js";
 import OddEvenSort from "./Sort/OddEvenSort.js";
+import CockTailShakerSort from "./Sort/CockTailShakerSort.js";
 import SelectionSort from "./Sort/SelectionSort.js";
 import InsertionSort from "./Sort/InsertionSort.js";
 import QuickSort from "./Sort/QuickSort.js";
@@ -9,6 +10,7 @@ class Simulation
 {
   static BUBBLE_SORT = "bubbleSort";
   static ODD_EVEN_SORT = "oddEvenSort";
+  static COCK_TAIL_SHAKER_SORT = "cockTailShakerSort";
   static SELECTION_SORT = "selectionSort";
   static INSERTION_SORT = "insertionSort";
   static QUICK_SORT = "quickSort";
@@ -24,6 +26,7 @@ class Simulation
     this.sorting = false;
     this.bubbleSort = new BubbleSort(this);
     this.oddEvenSort = new OddEvenSort(this);
+    this.cockTailShakerSort = new CockTailShakerSort(this);
     this.selectionSort = new SelectionSort(this);
     this.insertionSort = new InsertionSort(this);
     this.quickSort = new QuickSort(this);
@@ -38,6 +41,8 @@ class Simulation
         return this.bubbleSort;
       case Simulation.ODD_EVEN_SORT:
         return this.oddEvenSort;
+      case Simulation.COCK_TAIL_SHAKER_SORT:
+        return this.cockTailShakerSort;
       case Simulation.SELECTION_SORT:
         return this.selectionSort;
       case Simulation.INSERTION_SORT:

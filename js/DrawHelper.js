@@ -94,6 +94,9 @@ class DrawHelper
       case Simulation.ODD_EVEN_SORT:
         if (index === sim.i) return "red";
         break;
+      case Simulation.COCK_TAIL_SHAKER_SORT:
+        if (index === sim.i) return "red";
+        break;
       case Simulation.SELECTION_SORT:
         if (index === sim.j) return "red";
         if (index === sim.s) return "blue";
@@ -161,6 +164,9 @@ class DrawHelper
         if (index === sim.i) return false;
         break;
       case Simulation.ODD_EVEN_SORT:
+        if (index === sim.i) return false;
+        break;
+      case Simulation.COCK_TAIL_SHAKER_SORT:
         if (index === sim.i) return false;
         break;
       case Simulation.SELECTION_SORT:
