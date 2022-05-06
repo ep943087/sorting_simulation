@@ -16,9 +16,8 @@ class DrawHelper
   constructor(simulation)
   {
     this.simulation = simulation;
-    this.backgroundColor = "white";
     this.canvas = simulation.canvas;
-    this.drawType = DrawHelper.COLOR_CIRCLE;
+    this.drawType = DrawHelper.RECTANGLES;
     this.ctx = simulation.canvas.getContext('2d');
     this.imageSrc = "selfie";
     this.initializeImages();
@@ -26,16 +25,16 @@ class DrawHelper
 
   initializeImages()
   {
-    this.selfieImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.selfieImage = new Image(this.canvas.offsetWidth, this.canvas.offsetWidth);
     this.selfieImage.src = "images/selfie.png";
 
-    this.mayaImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.mayaImage = new Image(this.canvas.offsetWidth, this.canvas.offsetWidth);
     this.mayaImage.src = "images/maya.png";
 
-    this.helloWorldImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.helloWorldImage = new Image(this.canvas.offsetWidth, this.canvas.offsetWidth);
     this.helloWorldImage.src = "images/hello-world.png";
 
-    this.codeImage = new Image(this.canvas.offsetWidth, this.canvas.offsetHeight);
+    this.codeImage = new Image(this.canvas.offsetWidth, this.canvas.offsetWidth);
     this.codeImage.src = "images/code.png";
   }
 
@@ -56,10 +55,8 @@ class DrawHelper
     c.width = c.offsetWidth;
     c.height = c.offsetHeight;
     const { offsetWidth: width, offsetHeight: height } = c;
-    ctx.fillStyle = this.backgroundColor;
 
     ctx.clearRect(0, 0, width, height);
-    ctx.fillRect(0, 0, width, height);
 
     switch (this.drawType) {
       case DrawHelper.RECTANGLES:
@@ -88,7 +85,7 @@ class DrawHelper
   getRectangleColor(index)
   {
     const { simulation: sim } = this;
-    if (!sim.sorting) return "black";
+    if (!sim.sorting) return "white";
 
     switch (sim.sortType) {
       case Simulation.BUBBLE_SORT:
@@ -119,7 +116,7 @@ class DrawHelper
         }
         break;
     }
-    return "black";
+    return "white";
   }
 
   drawRectangleSimulation()
@@ -150,7 +147,7 @@ class DrawHelper
       const x = index * w;
       const color = this.getRectangleColor(index);
       ctx.fillStyle = color
-      const radius = color === "black" ? 2 : 5;
+      const radius = color === "white" ? 2 : 5;
       if (radius === 5) {
         drawLast.push({x, y: height - h, radius, color});
         return;
