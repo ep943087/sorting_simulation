@@ -42,6 +42,9 @@ class EventHelper
     this.listSize.addEventListener('change', this.handleListSizeChange);
     this.speed.addEventListener('change', this.handleSpeedChange);
     this.image.addEventListener('change', this.handleImageChange);
+    window.addEventListener('resize', () => {
+      this.drawHelper.initializeImages();
+    })
   }
 
   handleStartButtonClicked = () =>
